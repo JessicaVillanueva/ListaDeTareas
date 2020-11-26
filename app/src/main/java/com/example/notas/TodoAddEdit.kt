@@ -1,7 +1,9 @@
 package com.example.notas
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -51,17 +53,23 @@ class TodoAddEdit : AppCompatActivity() {
         setTitle("Agregar tarea")
         vTodoBtnSave.setOnClickListener {
             // Validaciones
-            todoDbController!!.insert(
-                    TodoItemData(
-                            0,
-                            vTodoInputTitle.text.toString(),
-                            vTodoInputMessage.text.toString(),
-                            vTodoInputDate.text.toString(),
-                            vTodoInputImage.text.toString()
-                    )
-            )
-            setResult(Activity.RESULT_OK)
-            onBackPressed()
+            if(!vTodoInputTitle.text.toString().isEmpty() && !vTodoInputMessage.text.toString().isEmpty() && !vTodoInputDate.text.toString().isEmpty()){
+                todoDbController!!.insert(
+                        TodoItemData(
+                                0,
+                                vTodoInputTitle.text.toString(),
+                                vTodoInputMessage.text.toString(),
+                                vTodoInputDate.text.toString(),
+                                vTodoInputImage.text.toString()
+                        )
+                )
+                setResult(Activity.RESULT_OK)
+                onBackPressed()
+            }
+            else{
+                showDialogAlertSimple()
+            }
+
         }
     }
     fun formSetUpEdit(){
@@ -70,23 +78,29 @@ class TodoAddEdit : AppCompatActivity() {
         vTodoInputTitle.setText(intent.getStringExtra("TITLE"))
         vTodoInputMessage.setText(intent.getStringExtra("MESSAGE"))
         vTodoInputDate.setText(intent.getStringExtra("DATE"))
-        intent.getStringExtra("IMAGE_URI")?.let {
-            vTodoInputImage.setText(it)
-            updateImage(it)
+        if(!intent.getStringExtra("IMAGE_URI").toString().isEmpty()) {
+            intent.getStringExtra("IMAGE_URI")?.let {
+                vTodoInputImage.setText(it)
+                updateImage(it)
+            }
         }
         vTodoBtnSave.setOnClickListener {
             // Validaciones
-            todoDbController!!.update(
-                    TodoItemData(
-                            id,
-                            vTodoInputTitle.text.toString(),
-                            vTodoInputMessage.text.toString(),
-                            vTodoInputDate.text.toString(),
-                            vTodoInputImage.text.toString()
-                    )
-            )
-            setResult(Activity.RESULT_OK, intent)
-            onBackPressed()
+            if(!vTodoInputTitle.text.toString().isEmpty() && !vTodoInputMessage.text.toString().isEmpty() && !vTodoInputDate.text.toString().isEmpty()) {
+                todoDbController!!.update(
+                        TodoItemData(
+                                id,
+                                vTodoInputTitle.text.toString(),
+                                vTodoInputMessage.text.toString(),
+                                vTodoInputDate.text.toString(),
+                                vTodoInputImage.text.toString()
+                        )
+                )
+                setResult(Activity.RESULT_OK, intent)
+                onBackPressed()
+            }else{
+                showDialogAlertSimple()
+            }
         }
 
     }
@@ -105,5 +119,16 @@ class TodoAddEdit : AppCompatActivity() {
     }
     fun updateImage(uri:String) {
         Picasso.get().load(uri).into(vImagePreview)
+    }
+
+    fun showDialogAlertSimple() {
+        AlertDialog.Builder(this)
+                .setTitle("Rellena todos los campos")
+                .setMessage("Por favor, Ingresa todos los datos")
+                .setPositiveButton("Aceptar",
+                        DialogInterface.OnClickListener { dialog, which ->
+                        })
+                //.setCancelable(false)
+                .show()
     }
 }

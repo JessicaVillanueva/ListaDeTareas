@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.notas.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main_todo_item.view.*
+import kotlinx.android.synthetic.main.activity_todo_add_edit.*
 
 class TodoListAdapter (val items:MutableList<TodoItemData>, val context:Context, val onClickDelete:(item:TodoItemData) -> Unit, val onClickEdit:(item:TodoItemData) -> Unit):RecyclerView.Adapter<TodoListAdapter.TodoHolder>(){
 
@@ -17,7 +18,9 @@ class TodoListAdapter (val items:MutableList<TodoItemData>, val context:Context,
             itemTemplate.vTodoTitle.text = item.title
             itemTemplate.vTodoMessage.text = item.message
             itemTemplate.vTodoDate.text = item.date
-            Picasso.get().load(item.imageUri).into(itemTemplate.vTodoImage)
+            if(!item.imageUri.isEmpty()){
+                Picasso.get().load(item.imageUri).into(itemTemplate.vTodoImage)
+            }
             /* Button Listeners */
             itemTemplate.vTodoEdit.setOnClickListener {
                 onClickEdit(item)

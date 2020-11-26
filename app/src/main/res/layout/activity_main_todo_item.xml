@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@drawable/borde_titulo"
     android:orientation="horizontal"
     android:weightSum="4">
 
@@ -17,6 +18,10 @@
             android:id="@+id/vTodoImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="1dp"
+            android:layout_marginTop="1dp"
+            android:layout_marginEnd="1dp"
+            android:layout_marginRight="1dp"
             android:scaleType="centerCrop"
             tools:srcCompat="@tools:sample/avatars" />
     </LinearLayout>
@@ -37,7 +42,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:text="Title"
-            android:textSize="18sp" />
+            android:textAlignment="center"
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/vTodoMessage"
@@ -63,6 +69,7 @@
                 android:id="@+id/vTodoEdit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="10dp"
                 android:layout_weight="1"
                 android:text="Editar" />
 
